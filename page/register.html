@@ -1,0 +1,442 @@
+<!-- 保存为 pages/register.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册账号 - AI 智能助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 450px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 头部装饰 */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .logo {
+      font-size: 56px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header h1 {
+      color: white;
+      font-size: 28px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 表单区域 */
+    .form-container {
+      padding: 40px 32px;
+    }
+
+    .input-group {
+      margin-bottom: 24px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.3s;
+      background: #f9fafb;
+    }
+
+    .input-group input:focus {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .input-group input::placeholder {
+      color: #9ca3af;
+    }
+
+    /* 密码强度提示 */
+    .password-strength {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .strength-text {
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    /* 注册按钮 */
+    .register-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 8px;
+    }
+
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+    }
+
+    .register-btn:active {
+      transform: translateY(0);
+    }
+
+    .register-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* 消息提示 */
+    .message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #dc2626;
+      display: block;
+    }
+
+    .message.success {
+      background: #d1fae5;
+      color: #059669;
+      display: block;
+    }
+
+    /* 登录链接 */
+    .login-link {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .login-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      transition: color 0.3s;
+    }
+
+    .login-link a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    /* 加载状态 */
+    .register-btn.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .register-btn.loading::after {
+      content: '...';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">✨</div>
+      <h1>创建账号</h1>
+      <p>加入 AI 智能助手，开启智能对话</p>
+    </div>
+
+    <div class="form-container">
+      <div class="input-group">
+        <label>用户名</label>
+        <input type="text" id="username" placeholder="请输入用户名 (3-20个字符)" autocomplete="username">
+      </div>
+
+      <div class="input-group">
+        <label>密码</label>
+        <input type="password" id="password" placeholder="请输入密码 (至少6位)" autocomplete="new-password">
+        <div class="password-strength" id="passwordStrength" style="display: none;">
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+          <div class="strength-text" id="strengthText"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>确认密码</label>
+        <input type="password" id="confirmPassword" placeholder="请再次输入密码" autocomplete="off" onkeypress="if(event.key==='Enter') register()">
+      </div>
+
+      <button class="register-btn" onclick="register()" id="registerBtn">注册</button>
+
+      <div id="status" class="message"></div>
+
+      <div class="login-link">
+        已有账号？
+        <a href="index.html">立即登录</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 密码强度检测
+    document.getElementById('password').addEventListener('input', function() {
+      const password = this.value;
+      const strengthDiv = document.getElementById('passwordStrength');
+      const strengthFill = document.getElementById('strengthFill');
+      const strengthText = document.getElementById('strengthText');
+
+      if (password.length === 0) {
+        strengthDiv.style.display = 'none';
+        return;
+      }
+
+      strengthDiv.style.display = 'block';
+
+      let strength = 0;
+      let message = '';
+      let color = '';
+
+      // 长度检查
+      if (password.length >= 6) strength += 1;
+      if (password.length >= 10) strength += 1;
+
+      // 包含数字
+      if (/\d/.test(password)) strength += 1;
+
+      // 包含字母
+      if (/[a-zA-Z]/.test(password)) strength += 1;
+
+      // 包含特殊字符
+      if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+
+      if (strength <= 2) {
+        message = '弱';
+        color = '#ef4444';
+        strengthFill.style.width = '33%';
+      } else if (strength <= 4) {
+        message = '中';
+        color = '#f59e0b';
+        strengthFill.style.width = '66%';
+      } else {
+        message = '强';
+        color = '#10b981';
+        strengthFill.style.width = '100%';
+      }
+
+      strengthFill.style.background = color;
+      strengthText.innerHTML = `密码强度: ${message}`;
+      strengthText.style.color = color;
+    });
+
+    async function register() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const statusDiv = document.getElementById('status');
+      const registerBtn = document.getElementById('registerBtn');
+
+      // 表单验证
+      if (!username) {
+        showMessage('请输入用户名', 'error');
+        return;
+      }
+
+      if (username.length < 3 || username.length > 20) {
+        showMessage('用户名长度应为 3-20 个字符', 'error');
+        return;
+      }
+
+      if (!/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(username)) {
+        showMessage('用户名只能包含字母、数字、下划线或中文', 'error');
+        return;
+      }
+
+      if (!password) {
+        showMessage('请输入密码', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('密码长度至少 6 位', 'error');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('两次输入的密码不一致', 'error');
+        return;
+      }
+
+      // 显示加载状态
+      registerBtn.classList.add('loading');
+      registerBtn.disabled = true;
+      statusDiv.style.display = 'none';
+
+      try {
+        const res = await fetch('/ai/v1/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password, re_password: confirmPassword })
+        });
+
+        const data = await res.json();
+
+        if (data.code === 1000) {
+          // 注册成功
+          showMessage('注册成功！正在跳转到登录页...', 'success');
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          // 注册失败
+          showMessage(data.msg || data.detail || '注册失败，请重试', 'error');
+          registerBtn.classList.remove('loading');
+          registerBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('注册请求失败:', error);
+        showMessage('网络错误，请检查服务器是否启动', 'error');
+        registerBtn.classList.remove('loading');
+        registerBtn.disabled = false;
+      }
+    }
+
+    function showMessage(msg, type) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.textContent = msg;
+      statusDiv.className = `message ${type}`;
+      statusDiv.style.display = 'block';
+
+      // 3秒后自动隐藏
+      setTimeout(() => {
+        if (statusDiv.style.display === 'block') {
+          statusDiv.style.display = 'none';
+        }
+      }, 3000);
+    }
+
+    // 自动去除用户名空格
+    document.getElementById('username').addEventListener('blur', function() {
+      this.value = this.value.trim();
+    });
+  </script>
+</body>
+</html>

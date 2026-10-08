@@ -1,0 +1,30 @@
+app:
+  name: "ai-qu-an-system"
+  mode: "dev"
+  port: 8080
+  version: "v0.0.1"
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "your_mysql_password"
+  dbname: "ai_user"
+  max_open_conns: 200
+  max_idle_conns: 50
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: ""
+  db: 2
+  pool_size: 100
+log:
+  level: "debug"
+  filename: "go-backend.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+snowflake:
+  start_time: "2026-05-01"
+  machine_id: 1
+python:
+  url: "http://127.0.0.1:8000"

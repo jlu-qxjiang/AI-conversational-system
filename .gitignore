@@ -1,0 +1,25 @@
+# ---- 环境变量（含密钥，不提交） ----
+.env
+.env.*
+!.env.example
+
+# ---- 配置文件（含数据库密码，提交 example 版本即可） ----
+go-backend/config/config.yaml
+
+# ---- Go 编译产物与日志 ----
+go-backend/tmp/
+*.exe
+*.log
+
+# ---- 上传的文档与向量数据 ----
+go-backend/uploaded_files/
+python-ai-service/faiss_index.bin
+python-ai-service/docs_meta.json
+
+# ---- Python 缓存 ----
+__pycache__/
+*.pyc
+
+# ---- IDE ----
+.idea/
+.vscode/
